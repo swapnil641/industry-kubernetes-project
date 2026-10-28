@@ -1,0 +1,29 @@
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: industry-prod
+namePrefix: prod-
+
+resources:
+  - ../../base
+
+replicas:
+  - name: industry-k8s-app
+    count: 3
+
+images:
+  - name: industry-k8s-app
+    newName: industry-k8s-app
+    newTag: v1
+
+patches:
+  - target:
+      version: v1
+      kind: Service
+      name: industry-k8s-app
+    patch: |-
+      - op: remove
+        path: /spec/ports/0/nodePort
+
+  - path: deployment-patch.yaml

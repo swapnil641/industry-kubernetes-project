@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: industry-dev
+
+resources:
+  - ../../base
+
+namePrefix: dev-
+
+patches:
+  - target:
+      version: v1
+      kind: Service
+      name: industry-k8s-app
+    patch: |-
+      - op: remove
+        path: /spec/ports/0/nodePort
