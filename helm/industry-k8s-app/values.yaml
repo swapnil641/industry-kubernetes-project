@@ -26,3 +26,29 @@ resources:
 updateStrategy:
   maxSurge: 1
   maxUnavailable: 0
+
+
+# Kubernetes health probes
+probes:
+  readiness:
+    enabled: true
+    path: /health
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+
+  liveness:
+    enabled: true
+    path: /health
+    initialDelaySeconds: 10
+    periodSeconds: 20
+    timeoutSeconds: 1
+    failureThreshold: 3
+
+  startup:
+    enabled: true
+    path: /health
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 30
