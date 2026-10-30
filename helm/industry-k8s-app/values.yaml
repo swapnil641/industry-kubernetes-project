@@ -53,3 +53,11 @@ probes:
     periodSeconds: 5
     timeoutSeconds: 1
     failureThreshold: 30
+
+# Kubernetes persistent storage
+persistence:
+  enabled: true
+  storageClass: standard
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  mountPath: /app/data

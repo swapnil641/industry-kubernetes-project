@@ -26,6 +26,11 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.containerPort }}
+                        {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: app-storage
+              mountPath: {{ .Values.persistence.mountPath }}
+          {{- end }}
           
           envFrom:
             - configMapRef:
@@ -74,3 +79,9 @@ spec:
             timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds }}
             failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
           {{- end }}
+                {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-storage
+      {{- end }}
