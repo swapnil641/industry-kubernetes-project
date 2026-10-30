@@ -26,9 +26,18 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.containerPort }}
+          
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+
           env:
-            - name: APP_ENV
-              value: {{ .Values.app.environment | quote }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: DB_PASSWORD
+
           resources:
             requests:
               cpu: {{ .Values.resources.requests.cpu | quote }}
